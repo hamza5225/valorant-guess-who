@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valorant Guess Who</title>
+<style>
+body { font-family: Arial; text-align: center; background: #0f172a; color: white; }
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 520px; margin: 20px auto; }
+.card { background: #1e293b; padding: 8px; border-radius: 10px; cursor: pointer; }
+.card.hidden { opacity: 0.2; }
+.card img { width: 100%; border-radius: 8px; }
+button { padding: 10px 20px; margin: 10px; border-radius: 8px; border: none; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<h1>🎮 Valorant Guess Who</h1>
+<p>Tap agents to eliminate them. Each of you pick a secret agent!</p>
+
+<div id="secret"></div>
+<button onclick="pickSecret()">Pick Random Agent</button>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const agents = [
+  "Astra","Breach","Brimstone","Chamber","Clove","Cypher","Deadlock","Fade","Gekko","Harbor","Iso",
+  "Jett","KAY/O","Killjoy","Miks","Neon","Omen","Phoenix","Raze","Reyna","Sage","Skye","Sova",
+  "Tejo","Veto","Viper","Vyse","Waylay","Yoru"
+];
+
+let secretAgent = "";
+
+function pickSecret() {
+  secretAgent = agents[Math.floor(Math.random() * agents.length)];
+  document.getElementById("secret").innerText = "Your agent: " + secretAgent;
+}
+
+function createGrid() {
+  const grid = document.getElementById("grid");
+  agents.forEach(agent => {
+    const div = document.createElement("div");
+    div.className = "card";
+
+    // simple fallback icon (colored box with initials)
+    const initials = agent.substring(0,2).toUpperCase();
+    div.innerHTML = `
+      <div style="height:80px;display:flex;align-items:center;justify-content:center;background:#334155;border-radius:8px;font-weight:bold;">
+        ${initials}
+      </div>
+      <p>${agent}</p>
+    `;
+
+    div.onclick = () => div.classList.toggle("hidden");
+    grid.appendChild(div);
+  });
+}
+
+createGrid();
+</script>
+
+</body>
+</html>
